@@ -1,9 +1,8 @@
 //
 //  ViewController.swift
-//  Calculator Layout iOS13
+//  Calculator
 //
-//  Created by Angela Yu on 01/07/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
+//  Created by Philip 2023.
 //
 
 import UIKit
@@ -13,18 +12,81 @@ class ViewController: UIViewController {
     var m_currInput:InputState = InputState.blank
     var m_lastAnswer: String?
     
+    let Operators = [
+        "MULT"  : "×",
+        "DIV"   : "÷",
+        "PLUS"  : "+",
+        "MINUS" : "-",
+    ]
+    
     @IBOutlet weak var m_screenLabel: UILabel!
     
-    @IBAction func dotBtn(_ sender: UIButton) {
-        if (m_currInput == InputState.dot || m_currInput == InputState.answer || m_currInput == InputState.operation) {
+    @IBAction func buttonPressed (_ sender: UIButton) {
+        let str = sender.titleLabel!.text!
+        let input = str.trimmingCharacters(in: .whitespaces)
+        print(input)
+        if (input == "0" || input == "1" || input == "2" || input == "3" || input == "4" ||
+            input == "5" || input == "6" || input == "7" || input == "8" || input == "9" )
+        {
+            if (numbersInitOk() == false) {
+                return
+            }
+            m_screenLabel.text = m_screenLabel.text! + input
+            m_currInput = InputState.number
             return
         }
-        if (m_currInput == InputState.blank) {
-            assert(m_screenLabel.text == "")
-            m_screenLabel.text = "0"
+        
+        if (input == ".")
+        {
+            if (m_currInput == InputState.dot || m_currInput == InputState.answer || m_currInput == InputState.operation) {
+                return
+            }
+            if (m_currInput == InputState.blank) {
+                //assert(m_screenLabel.text == "")
+                m_screenLabel.text = "0"
+            }
+            m_screenLabel.text = m_screenLabel.text! + "."
+            m_currInput = InputState.dot
         }
-        m_screenLabel.text = m_screenLabel.text! + "."
-        m_currInput = InputState.dot
+        
+        if (input == "Last\nResult"){
+            useAnswer()
+            return
+        }
+        
+        if (input == Operators["PLUS"] ||
+            input == Operators["MINUS"] ||
+            input == Operators["MULT"] ||
+            input == Operators["DIV"])
+        {
+            let is_minus = (input == Operators["MINUS"])
+            if (operatorsInitOk(blank_valid: is_minus) == false){
+                return
+            }
+            
+            m_screenLabel.text = m_screenLabel.text! + input
+            m_currInput = InputState.operation
+            return
+        }
+        
+        if (input == "AC") {
+            clearInput()
+            return
+        }
+        
+        if (input == "del") {
+            if (m_screenLabel.text == "" || m_currInput == InputState.answer) {
+                return
+            }
+            eraseLastInput()
+            return
+        }
+        
+        if (input == "=") {
+            equal()
+            return
+        }
+        print("input not recognized")
     }
     
     func numbersInitOk () -> Bool
@@ -34,77 +96,7 @@ class ViewController: UIViewController {
         }
         return true
     }
-    @IBAction func zeroBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "0"
-        m_currInput = InputState.number
-    }
-    @IBAction func oneBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "1"
-        m_currInput = InputState.number
-    }
-    @IBAction func twoBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "2"
-        m_currInput = InputState.number
-    }
-    @IBAction func threeBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "3"
-        m_currInput = InputState.number
-    }
-    @IBAction func fourBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "4"
-        m_currInput = InputState.number
-    }
-    @IBAction func fiveBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "5"
-        m_currInput = InputState.number
-    }
-    @IBAction func sixBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "6"
-        m_currInput = InputState.number
-    }
-    @IBAction func sevenBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "7"
-        m_currInput = InputState.number
-    }
-    @IBAction func eightBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "8"
-        m_currInput = InputState.number
-    }
-    @IBAction func nineBtn(_ sender: UIButton) {
-        if (numbersInitOk() == false) {
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "9"
-        m_currInput = InputState.number
-    }
-
+    
     func operatorsInitOk (blank_valid: Bool) -> Bool
     {
         if (m_currInput == InputState.dot ||
@@ -128,85 +120,39 @@ class ViewController: UIViewController {
         return true
     }
     
-    @IBAction func divBtn(_ sender: UIButton) {
-        if (operatorsInitOk(blank_valid: false) == false){
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "/"
-        m_currInput = InputState.operation
-    }
-    
-    @IBAction func multBtn(_ sender: UIButton) {
-        if (operatorsInitOk(blank_valid: false) == false){
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "x"
-        m_currInput = InputState.operation
-    }
-    
-    @IBAction func minusBtn(_ sender: UIButton) {
-        if (operatorsInitOk(blank_valid: true) == false){
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "-"
-        m_currInput = InputState.operation
-    }
-    
-    @IBAction func plusBtn(_ sender: UIButton) {
-        if (operatorsInitOk(blank_valid: false) == false){
-            return
-        }
-        m_screenLabel.text = m_screenLabel.text! + "+"
-        m_currInput = InputState.operation
-    }
-    
-    @IBAction func bsBtn(_ sender: UIButton) {
-        if (m_screenLabel.text == "" || m_currInput == InputState.answer) {
-            return
-        }
-        eraseLastInput()
-    }
-    
-    @IBAction func ansBtn(_ sender: UIButton) {
-        useAnswer()
-    }
-    
-    @IBAction func clearBtn(_ sender: UIButton) {
-        clearInput()
-    }
-    
-    @IBAction func equalBtn(_ sender: UIButton) {
+    func equal () {
         if (m_currInput == InputState.blank || m_currInput == InputState.answer || m_currInput == InputState.operation) {
             return
         }
         var numbers_array: [Double] = []
-        var operators_array: [Character] = []
+        var operators_array: [String] = []
         var number_str: String?
         var max_precision = -1
         var last_state = InputState.blank
 
         for (index, char) in m_screenLabel.text!.enumerated() {
             print("index = \(index), char = \(char), isNumber = \(char.isNumber)")
+            let char_str = String(char)
             
-            if (last_state == InputState.blank && char == "-") {
-                number_str = "-"
+            if (last_state == InputState.blank && char_str == Operators["MINUS"]) {
+                number_str = Operators["MINUS"]
                 continue
             }
             
-            let recog_state = recognizeState(input: String(char))
+            let recog_state = recognizeState(input: char_str)
             print("recog_state: \(recog_state)")
             
             var try_recog_number = false
             
             if (recog_state == InputState.number || recog_state == InputState.dot) {
                 last_state = recog_state
-                number_str = (number_str ?? "") + String(char)
+                number_str = (number_str ?? "") + char_str
                 if (index == m_screenLabel.text!.count-1) {
                     try_recog_number = true
                 }
             }
             else if(recog_state == InputState.operation) {
-                operators_array.append(char)
+                operators_array.append(char_str)
                 try_recog_number = true
             }
 
@@ -252,16 +198,16 @@ class ViewController: UIViewController {
         var index = 0
         repeat {
             let operation = operators_array[index]
-            if (operation == "/" || operation == "x") {
+            if (operation == Operators["DIV"] || operation == Operators["MULT"]) {
                 operators_array.remove(at:index)
                 op_count -= 1
                 var num_1 = numbers_array.remove(at:index)
                 let num_2 = numbers_array.remove(at:index)
                 print("priority: \(num_1) \(operation) \(num_2)")
-                if (operation == "x") {
+                if (operation == Operators["MULT"]) {
                     num_1 = num_1 * num_2
                 }
-                else if (operation == "/") {
+                else if (operation == Operators["DIV"]) {
                     num_1 = num_1 / num_2
                 }
                 print("result: \(num_1)")
@@ -285,16 +231,16 @@ class ViewController: UIViewController {
             }
             let operation = operators_array[index-1]
             print("calculating: \(result) \(operation) \(number)")
-            if (operation == "+") {
+            if (operation == Operators["PLUS"]) {
                 result = result + number
             }
-            else if (operation == "-") {
+            else if (operation == Operators["MINUS"]) {
                 result = result - number
             }
-            else if (operation == "x") {
+            else if (operation == Operators["MULT"]) {
                 result = result * number
             }
-            else if (operation == "/") {
+            else if (operation == Operators["DIV"]) {
                 result = result / number
             }
             print("result: \(result)")
@@ -385,10 +331,10 @@ class ViewController: UIViewController {
             {
                 state = InputState.number
             }
-            else if (_input == "+" ||
-                     _input == "-" ||
-                     _input == "x" ||
-                     _input == "/" )
+            else if (_input == Operators["PLUS"]   ||
+                     _input == Operators["MINUS"] ||
+                     _input == Operators["MULT"]  ||
+                     _input == Operators["DIV"]   )
             {
                 state = InputState.operation
             }
