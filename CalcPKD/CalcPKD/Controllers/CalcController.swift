@@ -148,34 +148,36 @@ class CalcController
 
         var op_count = operators_array.count
         var index = 0
-        repeat
+        if (op_count > 0)
         {
-            let operation = operators_array[index]
-            if (operation == Operators["DIV"] ||
-                operation == Operators["MULT"])
+            repeat
             {
-                operators_array.remove(at:index)
-                op_count -= 1
-                var num_1 = numbers_array.remove(at:index)
-                let num_2 = numbers_array.remove(at:index)
-                //print("priority: \(num_1) \(operation) \(num_2)")
-                if (operation == Operators["MULT"])
+                let operation = operators_array[index]
+                if (operation == Operators["DIV"] ||
+                    operation == Operators["MULT"])
                 {
-                    num_1 = num_1 * num_2
+                    operators_array.remove(at:index)
+                    op_count -= 1
+                    var num_1 = numbers_array.remove(at:index)
+                    let num_2 = numbers_array.remove(at:index)
+                    //print("priority: \(num_1) \(operation) \(num_2)")
+                    if (operation == Operators["MULT"])
+                    {
+                        num_1 = num_1 * num_2
+                    }
+                    else if (operation == Operators["DIV"])
+                    {
+                        num_1 = num_1 / num_2
+                    }
+                    //print("result: \(num_1)")
+                    numbers_array.insert(num_1, at: index)
                 }
-                else if (operation == Operators["DIV"])
+                else
                 {
-                    num_1 = num_1 / num_2
+                    index += 1
                 }
-                //print("result: \(num_1)")
-                numbers_array.insert(num_1, at: index)
-            }
-            else
-            {
-                index += 1
-            }
-        } while (index < op_count)
-        
+            } while (index < op_count)
+        }
         //print("numbers_array.count = \(numbers_array.count)")
         //print(numbers_array)
         //print("operators_array.count = \(operators_array.count)")
@@ -342,6 +344,7 @@ class CalcController
             }
             m_currCalc = m_currCalc + "."
             m_lastInputState = InputState.dot
+            return
         }
         
         if (input == "Last\nResult")

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController
+class MainViewController: UIViewController
 {
 
     @IBOutlet weak var m_screenLabel: UILabel!
@@ -20,12 +20,18 @@ class ViewController: UIViewController
         m_calc = CalcController()
     }
     
-    @IBAction func buttonPressed (_ sender: UIButton)
+    @IBAction func CalcButtonPressed (_ sender: UIButton)
     {
         let str = sender.titleLabel!.text!
         let input = str.trimmingCharacters(in: .whitespaces)
         m_calc!.Input(input: input)
         m_screenLabel.text = m_calc?.GetCurrCalc()
     }
+    
+    @IBAction func ShowHistoric (_ sender: Any)
+    {
+        print("Show Historic")
+    }
+    
 }
 
