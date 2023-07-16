@@ -13,6 +13,7 @@
 		D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */; };
 		D49958362A6301FB003A446E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49958342A6301FB003A446E /* ViewController.swift */; };
 		D49958372A6301FB003A446E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49958352A6301FB003A446E /* Main.storyboard */; };
+		D4D2459B2A644423005B917E /* CalcController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D2459A2A644423005B917E /* CalcController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D49958342A6301FB003A446E /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D49958352A6301FB003A446E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		D4D2459A2A644423005B917E /* CalcController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 		D4118F362A5F8D6000E7C966 /* CalcPKD */ = {
 			isa = PBXGroup;
 			children = (
+				D4D245972A6443E3005B917E /* CalcController */,
 				D49958332A6301CD003A446E /* Storyboard */,
 				D4118F372A5F8D6000E7C966 /* CalcPKDApp.swift */,
 				D4118F392A5F8D6000E7C966 /* ContentView.swift */,
@@ -79,6 +82,14 @@
 				D49958342A6301FB003A446E /* ViewController.swift */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		D4D245972A6443E3005B917E /* CalcController */ = {
+			isa = PBXGroup;
+			children = (
+				D4D2459A2A644423005B917E /* CalcController.swift */,
+			);
+			path = CalcController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +165,7 @@
 			files = (
 				D49958362A6301FB003A446E /* ViewController.swift in Sources */,
 				D4118F3A2A5F8D6000E7C966 /* ContentView.swift in Sources */,
+				D4D2459B2A644423005B917E /* CalcController.swift in Sources */,
 				D4118F382A5F8D6000E7C966 /* CalcPKDApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,6 +295,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CalcPKD/Preview Content\"";
+				DEVELOPMENT_TEAM = 6XZ4TRYY62;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -311,6 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CalcPKD/Preview Content\"";
+				DEVELOPMENT_TEAM = 6XZ4TRYY62;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
