@@ -11,9 +11,19 @@
 		D4118F3A2A5F8D6000E7C966 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4118F392A5F8D6000E7C966 /* ContentView.swift */; };
 		D4118F3C2A5F8D6100E7C966 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */; };
 		D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */; };
+		D49468F72A70B08500715D1C /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49468F62A70B08500715D1C /* AppStoreReviewManager.swift */; };
 		D49958362A6301FB003A446E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49958342A6301FB003A446E /* MainViewController.swift */; };
 		D49958372A6301FB003A446E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49958352A6301FB003A446E /* Main.storyboard */; };
-		D4D2459B2A644423005B917E /* CalcController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D2459A2A644423005B917E /* CalcController.swift */; };
+		D4A40CC82A6B4F0600A48EC1 /* result.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4A40CC72A6B4F0600A48EC1 /* result.mp3 */; };
+		D4A40CCA2A6B514D00A48EC1 /* start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4A40CC92A6B514D00A48EC1 /* start.mp3 */; };
+		D4A40CCC2A6B51B400A48EC1 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4A40CCB2A6B51B400A48EC1 /* sound.mp3 */; };
+		D4A40CCE2A6B52FE00A48EC1 /* operator.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4A40CCD2A6B52FE00A48EC1 /* operator.mp3 */; };
+		D4A40CD02A6B546100A48EC1 /* function.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4A40CCF2A6B546100A48EC1 /* function.mp3 */; };
+		D4CEA8702A6490500083CEC8 /* HistoricViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CEA86F2A6490500083CEC8 /* HistoricViewController.swift */; };
+		D4D2459B2A644423005B917E /* CalculatorModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D2459A2A644423005B917E /* CalculatorModule.swift */; };
+		D4D2459F2A647C1E005B917E /* HistoricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D2459E2A647C1E005B917E /* HistoricView.swift */; };
+		D4E703352A6ADDA200ABD463 /* digit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4E703332A6ADDA200ABD463 /* digit.mp3 */; };
+		D4E703382A6AE37300ABD463 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D4E703372A6AE37300ABD463 /* error.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,9 +32,19 @@
 		D4118F392A5F8D6000E7C966 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D49468F62A70B08500715D1C /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		D49958342A6301FB003A446E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D49958352A6301FB003A446E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		D4D2459A2A644423005B917E /* CalcController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcController.swift; sourceTree = "<group>"; };
+		D4A40CC72A6B4F0600A48EC1 /* result.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = result.mp3; sourceTree = "<group>"; };
+		D4A40CC92A6B514D00A48EC1 /* start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = start.mp3; sourceTree = "<group>"; };
+		D4A40CCB2A6B51B400A48EC1 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound.mp3; sourceTree = "<group>"; };
+		D4A40CCD2A6B52FE00A48EC1 /* operator.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = operator.mp3; sourceTree = "<group>"; };
+		D4A40CCF2A6B546100A48EC1 /* function.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = function.mp3; sourceTree = "<group>"; };
+		D4CEA86F2A6490500083CEC8 /* HistoricViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricViewController.swift; sourceTree = "<group>"; };
+		D4D2459A2A644423005B917E /* CalculatorModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModule.swift; sourceTree = "<group>"; };
+		D4D2459E2A647C1E005B917E /* HistoricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricView.swift; sourceTree = "<group>"; };
+		D4E703332A6ADDA200ABD463 /* digit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = digit.mp3; sourceTree = "<group>"; };
+		D4E703372A6AE37300ABD463 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,10 +77,13 @@
 		D4118F362A5F8D6000E7C966 /* CalcPKD */ = {
 			isa = PBXGroup;
 			children = (
+				D4E703242A6AD2A300ABD463 /* Sounds */,
 				D4D245972A6443E3005B917E /* Controllers */,
 				D49958332A6301CD003A446E /* Views */,
-				D4118F372A5F8D6000E7C966 /* CalcPKDApp.swift */,
 				D4118F392A5F8D6000E7C966 /* ContentView.swift */,
+				D49468F62A70B08500715D1C /* AppStoreReviewManager.swift */,
+				D4118F372A5F8D6000E7C966 /* CalcPKDApp.swift */,
+				D4D2459A2A644423005B917E /* CalculatorModule.swift */,
 				D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */,
 				D4118F3D2A5F8D6100E7C966 /* Preview Content */,
 			);
@@ -79,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				D49958352A6301FB003A446E /* Main.storyboard */,
+				D4D2459E2A647C1E005B917E /* HistoricView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -87,9 +111,23 @@
 			isa = PBXGroup;
 			children = (
 				D49958342A6301FB003A446E /* MainViewController.swift */,
-				D4D2459A2A644423005B917E /* CalcController.swift */,
+				D4CEA86F2A6490500083CEC8 /* HistoricViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		D4E703242A6AD2A300ABD463 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				D4A40CCF2A6B546100A48EC1 /* function.mp3 */,
+				D4A40CCD2A6B52FE00A48EC1 /* operator.mp3 */,
+				D4A40CCB2A6B51B400A48EC1 /* sound.mp3 */,
+				D4A40CC92A6B514D00A48EC1 /* start.mp3 */,
+				D4A40CC72A6B4F0600A48EC1 /* result.mp3 */,
+				D4E703372A6AE37300ABD463 /* error.mp3 */,
+				D4E703332A6ADDA200ABD463 /* digit.mp3 */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,8 +188,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4E703382A6AE37300ABD463 /* error.mp3 in Resources */,
+				D4E703352A6ADDA200ABD463 /* digit.mp3 in Resources */,
 				D49958372A6301FB003A446E /* Main.storyboard in Resources */,
+				D4A40CC82A6B4F0600A48EC1 /* result.mp3 in Resources */,
+				D4A40CCC2A6B51B400A48EC1 /* sound.mp3 in Resources */,
 				D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */,
+				D4A40CD02A6B546100A48EC1 /* function.mp3 in Resources */,
+				D4A40CCE2A6B52FE00A48EC1 /* operator.mp3 in Resources */,
+				D4A40CCA2A6B514D00A48EC1 /* start.mp3 in Resources */,
 				D4118F3C2A5F8D6100E7C966 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,7 +210,10 @@
 			files = (
 				D49958362A6301FB003A446E /* MainViewController.swift in Sources */,
 				D4118F3A2A5F8D6000E7C966 /* ContentView.swift in Sources */,
-				D4D2459B2A644423005B917E /* CalcController.swift in Sources */,
+				D4D2459F2A647C1E005B917E /* HistoricView.swift in Sources */,
+				D4CEA8702A6490500083CEC8 /* HistoricViewController.swift in Sources */,
+				D49468F72A70B08500715D1C /* AppStoreReviewManager.swift in Sources */,
+				D4D2459B2A644423005B917E /* CalculatorModule.swift in Sources */,
 				D4118F382A5F8D6000E7C966 /* CalcPKDApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

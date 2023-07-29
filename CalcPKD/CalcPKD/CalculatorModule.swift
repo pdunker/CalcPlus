@@ -5,9 +5,8 @@
 //  Created by Philip Dunker on 16/07/23.
 //
 
-import Foundation
 
-class CalcController
+class CalculatorModule
 {
     enum InputState
     {
@@ -28,6 +27,15 @@ class CalcController
         "MINUS" : "-",
     ]
     
+    let InputReceived =
+    [
+        "NUMBER_OK"   : "digit",
+        "OPERATOR_OK" : "operator",
+        "INVALID"     : "error",
+        "EQUAL"       : "result",
+        "DOT"         : "digit",
+        "FUNCTION"    : "function",
+    ]
     var m_currCalc = ""
     
     var m_lastInputState:InputState = InputState.blank
@@ -36,6 +44,12 @@ class CalcController
     
     func GetCurrCalc () -> String
     {
+        /*if (m_currCalc.count > 45) // change to 19 ?
+        {
+            print("m_currCalc: \(m_currCalc)")
+            let index = m_currCalc.index(m_currCalc.endIndex, offsetBy: -46)
+            return "..." + String(m_currCalc[index...])
+        }*/
         return m_currCalc
     }
     
@@ -48,9 +62,19 @@ class CalcController
         }
         if (m_lastInputState == InputState.operation)
         {
-            EraseLastInput()
-            assert(m_lastInputState == InputState.number)
+            if (m_currCalc.count > 1)
+            {
+                EraseLastInput()
+            }
+            else
+            {
+                // if current calculation is starting with negative
+                // op and user tries to digit another op, this last
+                // operation is ignored
+                return false
+            }
         }
+        
         if (m_lastInputState == InputState.answer)
         {
             if (m_lastAnswer != nil)
@@ -67,13 +91,13 @@ class CalcController
         return true
     }
     
-    func Equal ()
+    func Equal () -> Bool
     {
         if (m_lastInputState == InputState.blank  ||
             m_lastInputState == InputState.answer ||
             m_lastInputState == InputState.operation)
         {
-            return
+            return false
         }
         var numbers_array: [Double] = []
         var operators_array: [String] = []
@@ -127,8 +151,13 @@ class CalcController
                             break
                         }
                     }
-                    let total_precision = (number_str!.count - 1) - dot_index
-                    
+                    var total_precision = 0
+                    if (dot_index > 0)
+                    {
+                        total_precision = (number_str!.count - 1) - dot_index
+                    }
+                    print("number_str \(number_str!)")
+                    print("total_precision \(total_precision)")
                     if (max_precision < total_precision)
                     {
                         max_precision = total_precision
@@ -139,12 +168,12 @@ class CalcController
             }
         }
         
-        //print("max_precision: \(max_precision)")
-        //print("numbers_array.count = \(numbers_array.count)")
-        //print(numbers_array)
-        //print("operators_array.count = \(operators_array.count)")
-        //print(operators_array)
-        //assert(operators_array.count < numbers_array.count)
+        print("max_precision: \(max_precision)")
+        print("numbers_array.count = \(numbers_array.count)")
+        print(numbers_array)
+        print("operators_array.count = \(operators_array.count)")
+        print(operators_array)
+        assert(operators_array.count < numbers_array.count)
 
         var op_count = operators_array.count
         var index = 0
@@ -209,16 +238,18 @@ class CalcController
             {
                 result = result / number
             }
-            //print("result: \(result)")
+            print("result: \(result)")
         }
         
         let result_int = Int(exactly: result)
+        print("result_int: \(result_int)")
         if (result_int != nil)
         {
             m_lastAnswer = String(result_int!)
         }
         else
         {
+            print("max_precision: \(max_precision)")
             if (max_precision > 0)
             {
                 let format = "%." + String(max_precision) + "f"
@@ -236,6 +267,7 @@ class CalcController
         {
             m_lastAnswer = nil
         }
+        return true
     }
 
     func EraseLastInput ()
@@ -284,7 +316,7 @@ class CalcController
         {
             assert(_input != nil)
             if (_input == "0" || _input == "1" || _input == "2" || _input == "3" || _input == "4" ||
-                _input == "5" || _input == "6" || _input == "7" || _input == "8" || _input == "9")
+                _input == "5" || _input == "6" || _input == "7" || _input == "8" || _input == "9" )
             {
                 state = InputState.number
             }
@@ -303,9 +335,13 @@ class CalcController
             {
                 state = InputState.equal
             }
+            else if (_input == "e")
+            {
+                print("TODO") // pega o proximo char q vai ser o sinal, e faz 10^proximo valor
+            }
             else
             {
-                //print("RecognizeState: \(_input ?? "(nil)")")
+                print("RecognizeState: \(_input ?? "(nil)")")
                 state = InputState.error
             }
         }
@@ -313,7 +349,7 @@ class CalcController
         return state
     }
     
-    func Input (input: String)
+    func Input (input: String) -> String?
     {
         if (input == "0" || input == "1" || input == "2" || input == "3" || input == "4" ||
             input == "5" || input == "6" || input == "7" || input == "8" || input == "9" )
@@ -324,7 +360,7 @@ class CalcController
             }
             m_currCalc = m_currCalc + input
             m_lastInputState = InputState.number
-            return
+            return InputReceived["NUMBER_OK"]
         }
         
         if (input == ".")
@@ -332,7 +368,7 @@ class CalcController
             if (m_lastInputState == InputState.dot ||
                 m_lastInputState == InputState.answer)
             {
-                return
+                return InputReceived["INVALID"]
             }
             if (m_lastInputState == InputState.blank)
             {
@@ -344,13 +380,13 @@ class CalcController
             }
             m_currCalc = m_currCalc + "."
             m_lastInputState = InputState.dot
-            return
+            return InputReceived["DOT"]
         }
         
         if (input == "Last\nResult")
         {
             UseLastAnswer()
-            return
+            return InputReceived["FUNCTION"]
         }
         
         if (input == Operators["PLUS"]  ||
@@ -361,17 +397,17 @@ class CalcController
             let is_minus = (input == Operators["MINUS"])
             if (!CanInputOperator(blank_valid: is_minus))
             {
-                return
+                return InputReceived["INVALID"]
             }
             m_currCalc = m_currCalc + input
             m_lastInputState = InputState.operation
-            return
+            return InputReceived["OPERATOR_OK"]
         }
         
         if (input == "AC")
         {
             Clear()
-            return
+            return InputReceived["FUNCTION"]
         }
         
         if (input == "del")
@@ -379,17 +415,21 @@ class CalcController
             if (m_currCalc == "" ||
                 m_lastInputState == InputState.answer)
             {
-                return
+                return InputReceived["INVALID"]
             }
             EraseLastInput()
-            return
+            return InputReceived["FUNCTION"]
         }
         
         if (input == "=")
         {
-            Equal()
-            return
+            if (Equal())
+            {
+                return InputReceived["EQUAL"]
+            }
+            return InputReceived["INVALID"]
         }
         print("input not recognized: \(input)")
+        return nil
     }
 }
