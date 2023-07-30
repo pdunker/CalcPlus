@@ -1,0 +1,75 @@
+//
+//  CalculatorButton.swift
+//  CalculatorSwiftUILBTA
+//
+//  Created by Philip Dunker on 30/01/23.
+//  Copyright © 2023 Lets Build That App. All rights reserved.
+//
+
+import SwiftUI
+
+enum CalcButton: String {
+    
+    case zero, one, two, three, four, five, six, seven, eight, nine
+    case equals, plus, minus, multiply, divide
+    case decimal
+    case ac, lastResult, delete
+    case sound, like
+    
+    var title: String {
+        switch self {
+        case .zero: return "0"
+        case .one: return "1"
+        case .two: return "2"
+        case .three: return "3"
+        case .four: return "4"
+        case .five: return "5"
+        case .six: return "6"
+        case .seven: return "7"
+        case .eight: return "8"
+        case .nine: return "9"
+
+        case .plus: return "+"
+        case .minus: return "-"
+        case .multiply: return "×"
+        case .divide: return "÷"
+
+        case .equals: return "="
+        case .decimal: return "."
+            
+        case .delete: return "Del"
+        case .lastResult: return "LR"
+        case .ac: return "AC"
+        
+        case .sound: return "music.note"
+        case .like: return "hand.thumbsup"
+            
+        //default:
+        //    return "Not Regconized"
+        }
+    }
+    var type: String {
+        switch self {
+        case .zero, .one, .two, .three, .four, .five, .six, .seven, .eight, .nine:
+            return "number"
+        case .plus, .minus, .multiply, .divide:
+            return "operator"
+        case .ac, .lastResult, .delete, .sound, .like:
+            return "function"
+        default:
+            return self.rawValue
+        }
+    }
+    
+    var backgroundColor: Color {
+        switch self {
+        case .zero, .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, .decimal:
+            return Color(.darkGray)
+        case .ac, .lastResult, .delete, .sound, .like:
+            return Color(.lightGray)
+        default:
+            return .orange
+        }
+    }
+    
+}

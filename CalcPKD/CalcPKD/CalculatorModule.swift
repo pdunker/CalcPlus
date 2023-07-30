@@ -44,12 +44,6 @@ class CalculatorModule
     
     func GetCurrCalc () -> String
     {
-        /*if (m_currCalc.count > 45) // change to 19 ?
-        {
-            print("m_currCalc: \(m_currCalc)")
-            let index = m_currCalc.index(m_currCalc.endIndex, offsetBy: -46)
-            return "..." + String(m_currCalc[index...])
-        }*/
         return m_currCalc
     }
     
@@ -383,7 +377,7 @@ class CalculatorModule
             return InputReceived["DOT"]
         }
         
-        if (input == "Last\nResult")
+        if (input == "LR")
         {
             UseLastAnswer()
             return InputReceived["FUNCTION"]
@@ -410,7 +404,7 @@ class CalculatorModule
             return InputReceived["FUNCTION"]
         }
         
-        if (input == "del")
+        if (input == "Del")
         {
             if (m_currCalc == "" ||
                 m_lastInputState == InputState.answer)
