@@ -27,11 +27,13 @@ struct ContentView: View {
     // Use ScrollViewReader in SwiftUI to scroll to a new item
     // https://nilcoalescing.com/blog/ScrollToNewlyAddedItemUsingScrollViewReaderAndOnChangeModifier/
     @Namespace var label_end_ID
+    @Namespace var calc_end_ID
     
+    @State private var copyAlert = false
     
     var body: some View {
-        //StoryBoardView()//.edgesIgnoringSafeArea(.all)
         let screenSize = UIScreen.main.bounds
+        
         ZStack (alignment: .bottom) {
             
             if (darkMode) {
@@ -40,9 +42,49 @@ struct ContentView: View {
                 Color.white.edgesIgnoringSafeArea(.all)
             }
             
-            VStack(spacing: 12) {
- 
-                ScrollViewReader { scrollProxy in
+            VStack() {
+
+                // Historic
+                ScrollViewReader { scrollProxyV in
+                    ScrollView(.vertical, showsIndicators: true) {
+                        VStack (alignment: .leading) {
+                            ForEach(env.oldCalcs, id: \.self) { calc in
+                                ScrollViewReader { _ in
+                                    ScrollView(.horizontal, showsIndicators: true) {
+                                        HStack {
+                                            Text(calc)
+                                                .lineLimit(1)
+                                                .font(.system(size: 64))
+                                                .foregroundColor(textColor)
+                                                .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
+                                                .onTapGesture {
+                                                    UIPasteboard.general.string = calc
+                                                    copyAlert = true
+                                                }
+                                                .alert(isPresented: $copyAlert) {
+                                                    Alert(
+                                                        title: Text("Copied to clipboard")
+                                                    )
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                            Text("") // workaround to scroll to the last calculation
+                                .id(calc_end_ID)
+                                .foregroundColor(textColor)
+                        }
+                    }
+                    .onChange(of: env.scrollToLast) { id in
+                        withAnimation {
+                            scrollProxyV.scrollTo(calc_end_ID, anchor: .bottom)
+                        }
+                    }
+                }
+                
+                
+                // Current Calculation
+                ScrollViewReader { scrollProxyH in
                     ScrollView(.horizontal, showsIndicators: true) {
                         HStack {
                             Text(env.display)
@@ -50,17 +92,27 @@ struct ContentView: View {
                                 .font(.system(size: 64))
                                 .foregroundColor(textColor)
                                 .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
-                            Text("")
+                                .onTapGesture {
+                                    UIPasteboard.general.string = env.display
+                                    copyAlert = true
+                                }
+                                .alert(isPresented: $copyAlert) {
+                                    Alert(
+                                        title: Text("Copied to clipboard")
+                                    )
+                                }
+                            Text("") // workaround to make the last digit appear in screen after typed
                                 .id(label_end_ID)
                         }
                     }
-                    .onChange(of: env.scrollToLastInput) { id in
+                    .onChange(of: env.scrollToLast) { id in
                         withAnimation {
-                            scrollProxy.scrollTo(label_end_ID, anchor: .leading)
+                            scrollProxyH.scrollTo(label_end_ID, anchor: .leading)
                         }
                     }
                 }
                 
+                // Buttons
                 ForEach(buttons, id: \.self) { row in
                     HStack (spacing: 12) {
                         ForEach(row, id: \.self) { button in
