@@ -33,17 +33,13 @@ struct ContentView: View {
     
     var body: some View {
         let screenSize = UIScreen.main.bounds
-        
         ZStack (alignment: .bottom) {
-            
             if (darkMode) {
                 Color.black.edgesIgnoringSafeArea(.all)
             } else {
                 Color.white.edgesIgnoringSafeArea(.all)
             }
-            
             VStack() {
-
                 // Historic
                 ScrollViewReader { scrollProxyV in
                     ScrollView(.vertical, showsIndicators: true) {
@@ -81,8 +77,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                
-                
                 // Current Calculation
                 ScrollViewReader { scrollProxyH in
                     ScrollView(.horizontal, showsIndicators: true) {
@@ -111,7 +105,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                
                 // Buttons
                 ForEach(buttons, id: \.self) { row in
                     HStack (spacing: 12) {
@@ -120,20 +113,17 @@ struct ContentView: View {
                         }
                     }
                 }
-
             }
-            
-        }
-        
+        } // ZStack
     }
-
 }
 
 struct ContentView_Previews: PreviewProvider
 {
     static var previews: some View
     {
-        ContentView().environmentObject(GlobalEnvironment())
+        ContentView()
+            .environmentObject(GlobalEnvironment())
     }
 }
 

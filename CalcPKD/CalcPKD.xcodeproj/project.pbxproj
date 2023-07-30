@@ -11,6 +11,7 @@
 		D4118F3A2A5F8D6000E7C966 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4118F392A5F8D6000E7C966 /* ContentView.swift */; };
 		D4118F3C2A5F8D6100E7C966 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */; };
 		D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */; };
+		D4444F302A76F7CD00B2343C /* OrientationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4444F2F2A76F7CD00B2343C /* OrientationInfo.swift */; };
 		D48A5F052A757CF500A69600 /* CalcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A5F042A757CF500A69600 /* CalcButton.swift */; };
 		D48A5F072A757DA500A69600 /* CalcButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A5F062A757DA500A69600 /* CalcButtonView.swift */; };
 		D48A5F092A757DE700A69600 /* GlobalEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A5F082A757DE600A69600 /* GlobalEnvironment.swift */; };
@@ -33,6 +34,7 @@
 		D4118F392A5F8D6000E7C966 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D4444F2F2A76F7CD00B2343C /* OrientationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationInfo.swift; sourceTree = "<group>"; };
 		D48A5F042A757CF500A69600 /* CalcButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcButton.swift; sourceTree = "<group>"; };
 		D48A5F062A757DA500A69600 /* CalcButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalcButtonView.swift; sourceTree = "<group>"; };
 		D48A5F082A757DE600A69600 /* GlobalEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnvironment.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				D49468F62A70B08500715D1C /* AppStoreReviewManager.swift */,
 				D4118F372A5F8D6000E7C966 /* CalcPKDApp.swift */,
 				D4D2459A2A644423005B917E /* CalculatorModule.swift */,
+				D4444F2F2A76F7CD00B2343C /* OrientationInfo.swift */,
 				D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */,
 				D4118F3D2A5F8D6100E7C966 /* Preview Content */,
 			);
@@ -222,6 +225,7 @@
 				D48A5F092A757DE700A69600 /* GlobalEnvironment.swift in Sources */,
 				D4D2459F2A647C1E005B917E /* HistoricView.swift in Sources */,
 				D4CEA8702A6490500083CEC8 /* HistoricViewController.swift in Sources */,
+				D4444F302A76F7CD00B2343C /* OrientationInfo.swift in Sources */,
 				D49468F72A70B08500715D1C /* AppStoreReviewManager.swift in Sources */,
 				D4D2459B2A644423005B917E /* CalculatorModule.swift in Sources */,
 				D48A5F072A757DA500A69600 /* CalcButtonView.swift in Sources */,
