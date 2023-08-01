@@ -12,6 +12,8 @@ struct CalcButtonView: View {
     
     var button: CalcButton
     
+    var state: Bool
+    
     @EnvironmentObject var env: GlobalEnvironment
     
     var body: some View {
@@ -19,13 +21,23 @@ struct CalcButtonView: View {
         Button(action: {
             self.env.Input(button: self.button)
         }) {
-            if self.useImage(button: button) {
-                Image(systemName: button.title)
-                    .font(.system(size: 24))
-                    .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
-                    .foregroundColor(.white)
-                    .background(button.backgroundColor)
-                    .cornerRadius(self.buttonWidth(button: button))
+            if button.image.isEmpty == false {
+                ZStack {
+                    Image(systemName: button.image)
+                        .font(.system(size: 24))
+                        .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
+                        .foregroundColor(.white)
+                        .background(button.backgroundColor)
+                        .cornerRadius(self.buttonWidth(button: button))
+                    if state == false {
+                        Rectangle()
+                            .fill(.white)
+                            .frame(width: 35, height: 35)
+                            .mask(
+                                Image(systemName: "nosign")
+                                    .font(.system(size: 34)))
+                    }
+                }
             }
             else {
                 Text(button.title)
@@ -42,29 +54,23 @@ struct CalcButtonView: View {
         if button == .zero {
             return (UIScreen.main.bounds.width - 4 * 12) / 4 * 2
         }
-        if button == .sound || button == .like {
+        if button.isSmall {
             return (UIScreen.main.bounds.width - 5 * 12) / 8
         }
         return (UIScreen.main.bounds.width - 5 * 12) / 4
     }
     
     private func buttonHeight(button: CalcButton) -> CGFloat {
-        if button == .sound || button == .like {
+        if button.isSmall {
             return (UIScreen.main.bounds.width - 5 * 12) / 8
         }
         return (UIScreen.main.bounds.width - 5 * 12) / 4
     }
-    
-    private func useImage(button: CalcButton) -> Bool {
-        if button == .sound || button == .like {
-            return true
-        }
-        return false
-    }
+
 }
 
 struct CalcButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        CalcButtonView(button: .sound)
+        CalcButtonView(button: .delete, state: true)
     }
 }

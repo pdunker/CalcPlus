@@ -42,6 +42,9 @@ class CalculatorModule
     
     private var m_lastAnswer: String?
     
+    private var m_digitingNum = false   // variables used to avoid
+    private var m_currNumHasDot = false // two dots in the same number
+    
     func GetCurrCalc () -> String
     {
         return m_currCalc
@@ -62,29 +65,41 @@ class CalculatorModule
                 Clear()
             }
             m_currCalc = m_currCalc + input
+            if m_lastInputState != InputState.number &&
+               m_lastInputState != InputState.dot {
+                m_digitingNum = true
+                m_currNumHasDot = false
+            }
+            
             m_lastInputState = InputState.number
             return InputReceived["NUMBER_OK"]
         }
         
         if (input == ".")
         {
-            if (m_lastInputState == InputState.dot ||
-                m_lastInputState == InputState.answer)
-            {
+            if m_lastInputState == InputState.dot ||
+                m_digitingNum && m_currNumHasDot  {
                 return InputReceived["INVALID"]
             }
-            if (m_lastInputState == InputState.blank)
+
+            if (m_lastInputState == InputState.blank ||
+                m_lastInputState == InputState.answer)
             {
+                m_digitingNum = true
                 m_currCalc = "0"
             }
             if (m_lastInputState == InputState.operation)
             {
+                m_digitingNum = true
                 m_currCalc = m_currCalc + "0"
             }
             m_currCalc = m_currCalc + "."
             m_lastInputState = InputState.dot
+            m_currNumHasDot = true
             return InputReceived["DOT"]
         }
+        
+        m_digitingNum = false
         
         if (input == "LR")
         {
@@ -115,12 +130,14 @@ class CalculatorModule
         
         if (input == "Del")
         {
-            if (m_currCalc == "" ||
-                m_lastInputState == InputState.answer)
-            {
+            if m_currCalc == "" {
                 return InputReceived["INVALID"]
             }
-            EraseLastInput()
+            if m_lastInputState == InputState.answer {
+                Clear()
+            } else {
+                EraseLastInput()
+            }
             return InputReceived["FUNCTION"]
         }
         
@@ -344,16 +361,14 @@ class CalculatorModule
             if debug {
                 print("max_precision: \(max_precision)")
             }
-            if (max_precision > 0)
-            {
-                let format = "%." + String(max_precision) + "f"
-                //print("format: \(format)")
-                m_lastAnswer = String(format:format , result)
+            var format = "%.3f"
+            if max_precision > 0 {
+                format = "%." + String(max_precision) + "f"
             }
-            else
-            {
-                m_lastAnswer = String(result)
+            if debug {
+                print("format: \(format)")
             }
+            m_lastAnswer = String(format:format , result)
         }
         m_currCalc = m_currCalc + "=" + m_lastAnswer!
         m_lastInputState = InputState.answer

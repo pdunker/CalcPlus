@@ -20,7 +20,8 @@ class GlobalEnvironment: ObservableObject {
     
     let calculator = CalculatorModule()
     
-    private var soundOn = false // TODO: TURN ON BEFORE DEPLOYING
+    @Published var soundOn = false // TODO: TURN ON BEFORE DEPLOYING
+    
     private var audioPlayer: AVAudioPlayer?
     
     init() {
@@ -36,8 +37,17 @@ class GlobalEnvironment: ObservableObject {
             RateButtonPressed()
             return
         }
-        
+        if button == .eraser {
+            oldCalcs = ["", "", "", "", ""]
+            display = ""
+            calculator.Input(input: "AC")
+            return
+        }
         if calculator.GetCurrState() == CalculatorModule.InputState.answer {
+            if button == .equals {
+                PlaySound(sound: "error")
+                return
+            }
             self.oldCalcs.append(calculator.GetCurrCalc())
             display = ""
         }

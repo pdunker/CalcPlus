@@ -11,8 +11,9 @@ import UIKit
 struct ContentView: View {
     @EnvironmentObject var env: GlobalEnvironment
     
-    @State private var darkMode = true
+    @State private var darkMode = true // need to change textColor
     
+    @State private var backColor: Color = .black
     @State private var textColor: Color = .white
     
     let buttons: [[CalcButton]] = [
@@ -21,7 +22,7 @@ struct ContentView: View {
         [.four, .five, .six, .minus],
         [.one, .two, .three, .plus],
         [.zero, .decimal, .equals],
-        [.sound, .like]
+        [.eraser, .sound, .like]
     ]
     
     // Use ScrollViewReader in SwiftUI to scroll to a new item
@@ -34,11 +35,9 @@ struct ContentView: View {
     var body: some View {
         let screenSize = UIScreen.main.bounds
         ZStack (alignment: .bottom) {
-            if (darkMode) {
-                Color.black.edgesIgnoringSafeArea(.all)
-            } else {
-                Color.white.edgesIgnoringSafeArea(.all)
-            }
+            
+            backColor.edgesIgnoringSafeArea(.all)
+
             VStack() {
                 // Historic
                 ScrollViewReader { scrollProxyV in
@@ -109,11 +108,20 @@ struct ContentView: View {
                 ForEach(buttons, id: \.self) { row in
                     HStack (spacing: 12) {
                         ForEach(row, id: \.self) { button in
-                            CalcButtonView(button: button)
+                            if button == .sound {
+                                CalcButtonView(button: button, state: env.soundOn)
+                            } else {
+                                CalcButtonView(button: button, state: true)
+                            }
                         }
                     }
                 }
             }
+            // Draw a rectangle on top to hide list items entering the safe area
+            Rectangle()
+                .fill(backColor)
+                .frame(width: screenSize.width, height: screenSize.width/5)
+                .position(x: screenSize.width/2, y: -screenSize.width/10)
         } // ZStack
     }
 }

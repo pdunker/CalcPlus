@@ -14,10 +14,11 @@ enum CalcButton: String {
     case equals, plus, minus, multiply, divide
     case decimal
     case ac, lastResult, delete
-    case sound, like
+    case sound, like, eraser
     
     var title: String {
         switch self {
+            
         case .zero: return "0"
         case .one: return "1"
         case .two: return "2"
@@ -41,20 +42,68 @@ enum CalcButton: String {
         case .lastResult: return "LR"
         case .ac: return "AC"
         
-        case .sound: return "music.note"
-        case .like: return "hand.thumbsup"
+        //case .sound: return "sound"
+        //case .like: return "hand.thumbsup"
+        //case .eraser: return "clock.badge.xmark"
             
-        //default:
-        //    return "Not Regconized"
+        default:
+            return rawValue
         }
     }
+    
+    var image: String {
+        switch self {
+            
+        //case .zero: return "0"
+        //case .one: return "1"
+        //case .two: return "2"
+        //case .three: return "3"
+        //case .four: return "4"
+        //case .five: return "5"
+        //case .six: return "6"
+        //case .seven: return "7"
+        //case .eight: return "8"
+        //case .nine: return "9"
+
+        //case .plus: return "+"
+        //case .minus: return "-"
+        //case .multiply: return "×"
+        //case .divide: return "÷"
+
+        //case .equals: return "="
+        //case .decimal: return "."
+            
+        case .delete: return "eraser.line.dashed"
+        //case .lastResult: return "LR"
+        //case .ac: return "AC"
+        
+        case .sound: return "music.note"
+        case .like: return "hand.thumbsup"
+        case .eraser: return "clock.badge.xmark"
+            
+        default:
+            return ""
+        }
+    }
+    
+    var isSmall: Bool {
+        switch self {
+            
+        case .sound, .like, .eraser:
+            return true
+            
+        default:
+            return false
+        }
+    }
+    
     var type: String {
         switch self {
         case .zero, .one, .two, .three, .four, .five, .six, .seven, .eight, .nine:
             return "number"
         case .plus, .minus, .multiply, .divide:
             return "operator"
-        case .ac, .lastResult, .delete, .sound, .like:
+        case .ac, .lastResult, .delete, .sound, .like, .eraser:
             return "function"
         default:
             return self.rawValue
@@ -65,7 +114,7 @@ enum CalcButton: String {
         switch self {
         case .zero, .one, .two, .three, .four, .five, .six, .seven, .eight, .nine, .decimal:
             return Color(.darkGray)
-        case .ac, .lastResult, .delete, .sound, .like:
+        case .ac, .lastResult, .delete, .sound, .like, .eraser:
             return Color(.lightGray)
         default:
             return .orange
