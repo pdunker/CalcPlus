@@ -9,144 +9,143 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    @EnvironmentObject var env: GlobalEnvironment
+  @EnvironmentObject var env: GlobalEnvironment
+  
+  let buttons: [[CalcButton]] = [
+    [.ac, .lastResult, .delete, .divide],
+    [.seven, .eight, .nine, .multiply],
+    [.four, .five, .six, .minus],
+    [.one, .two, .three, .plus],
+    [.zero, .decimal, .equals],
+    [.eraser, .sound, .txt_size, .theme, .like]
+  ]
+  
+  // Use ScrollViewReader in SwiftUI to scroll to a new item
+  // https://nilcoalescing.com/blog/ScrollToNewlyAddedItemUsingScrollViewReaderAndOnChangeModifier/
+  @Namespace var label_end_ID
+  @Namespace var calc_end_ID
+  
+  @State private var copyAlert = false
+  
+  var body: some View {
     
-    @State private var darkMode = true // need to change textColor
+    let screenSize = UIScreen.main.bounds
     
-    @State private var backColor: Color = .black
-    @State private var textColor: Color = .white
-    
-    let buttons: [[CalcButton]] = [
-        [.ac, .lastResult, .delete, .divide],
-        [.seven, .eight, .nine, .multiply],
-        [.four, .five, .six, .minus],
-        [.one, .two, .three, .plus],
-        [.zero, .decimal, .equals],
-        [.eraser, .sound, .like]
-    ]
-    
-    // Use ScrollViewReader in SwiftUI to scroll to a new item
-    // https://nilcoalescing.com/blog/ScrollToNewlyAddedItemUsingScrollViewReaderAndOnChangeModifier/
-    @Namespace var label_end_ID
-    @Namespace var calc_end_ID
-    
-    @State private var copyAlert = false
-    
-    var body: some View {
-        let screenSize = UIScreen.main.bounds
-        ZStack (alignment: .bottom) {
-            
-            backColor.edgesIgnoringSafeArea(.all)
-
-            VStack() {
-                // Historic
-                ScrollViewReader { scrollProxyV in
-                    ScrollView(.vertical, showsIndicators: true) {
-                        VStack (alignment: .leading) {
-                            ForEach(env.oldCalcs, id: \.self) { calc in
-                                ScrollViewReader { _ in
-                                    ScrollView(.horizontal, showsIndicators: true) {
-                                        HStack {
-                                            Text(calc)
-                                                .lineLimit(1)
-                                                .font(.system(size: 64))
-                                                .foregroundColor(textColor)
-                                                .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
-                                                .onTapGesture {
-                                                    UIPasteboard.general.string = calc
-                                                    copyAlert = true
-                                                }
-                                                .alert(isPresented: $copyAlert) {
-                                                    Alert(
-                                                        title: Text("Copied to clipboard")
-                                                    )
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                            Text("") // workaround to scroll to the last calculation
-                                .id(calc_end_ID)
-                                .foregroundColor(textColor)
+    ZStack (alignment: .bottom) {
+      
+      env.backColor.edgesIgnoringSafeArea(.all)
+      
+      VStack() {
+        
+        // Historic
+        ScrollViewReader { scrollProxyV in
+          ScrollView(.vertical, showsIndicators: true) {
+            VStack (alignment: .leading) {
+              ForEach(env.oldCalcs, id: \.self) { calc in
+                ScrollViewReader { _ in
+                  ScrollView(.horizontal, showsIndicators: true) {
+                    HStack {
+                      Text(calc)
+                        .lineLimit(1)
+                        .font(.system(size: env.elemSizes.dispTextSize))
+                        .foregroundColor(env.textColor)
+                        .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
+                        .onTapGesture {
+                          UIPasteboard.general.string = calc
+                          copyAlert = true
                         }
-                    }
-                    .onChange(of: env.scrollToLast) { id in
-                        withAnimation {
-                            scrollProxyV.scrollTo(calc_end_ID, anchor: .bottom)
+                        .alert(isPresented: $copyAlert) {
+                          Alert(title: Text("Copied to clipboard"))
                         }
-                    }
+                    } // HStack
+                  } // ScrolView horizontal
+                } // ScrollViewReader
+              } // ForEach oldCalcs
+              Text("") // workaround to scroll to the last calculation
+                .id(calc_end_ID)
+                .foregroundColor(env.textColor)
+            } // VStack
+          } // ScrollView .vertical
+          .onChange(of: env.scrollToLast) { id in
+            withAnimation {
+              scrollProxyV.scrollTo(calc_end_ID, anchor: .bottom)
+            } // withAnimation
+          } // onChange
+        } // ScrollViewReader
+        
+        // Current Calculation
+        ScrollViewReader { scrollProxyH in
+          ScrollView(.horizontal, showsIndicators: true) {
+            HStack {
+              Text(env.display)
+                .lineLimit(1)
+                .font(.system(size: env.elemSizes.dispTextSize))
+                .foregroundColor(env.textColor)
+                .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
+                .onTapGesture {
+                  UIPasteboard.general.string = env.display
+                  copyAlert = true
                 }
-                // Current Calculation
-                ScrollViewReader { scrollProxyH in
-                    ScrollView(.horizontal, showsIndicators: true) {
-                        HStack {
-                            Text(env.display)
-                                .lineLimit(1)
-                                .font(.system(size: 64))
-                                .foregroundColor(textColor)
-                                .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
-                                .onTapGesture {
-                                    UIPasteboard.general.string = env.display
-                                    copyAlert = true
-                                }
-                                .alert(isPresented: $copyAlert) {
-                                    Alert(
-                                        title: Text("Copied to clipboard")
-                                    )
-                                }
-                            Text("") // workaround to make the last digit appear in screen after typed
-                                .id(label_end_ID)
-                        }
-                    }
-                    .onChange(of: env.scrollToLast) { id in
-                        withAnimation {
-                            scrollProxyH.scrollTo(label_end_ID, anchor: .leading)
-                        }
-                    }
+                .alert(isPresented: $copyAlert) {
+                  Alert(
+                    title: Text("Copied to clipboard")
+                  )
                 }
-                // Buttons
-                ForEach(buttons, id: \.self) { row in
-                    HStack (spacing: 12) {
-                        ForEach(row, id: \.self) { button in
-                            if button == .sound {
-                                CalcButtonView(button: button, state: env.soundOn)
-                            } else {
-                                CalcButtonView(button: button, state: true)
-                            }
-                        }
-                    }
-                }
+              Text("") // workaround to make the last digit appear in   screen after typed
+                .id(label_end_ID)
             }
-            // Draw a rectangle on top to hide list items entering the safe area
-            Rectangle()
-                .fill(backColor)
-                .frame(width: screenSize.width, height: screenSize.width/5)
-                .position(x: screenSize.width/2, y: -screenSize.width/10)
-        } // ZStack
-    }
-}
+          }
+          .onChange(of: env.scrollToLast) { id in
+            withAnimation {
+              scrollProxyH.scrollTo(label_end_ID, anchor: .leading)
+            }
+          }
+        }
+        
+        // Buttons
+        ForEach(buttons, id: \.self) { row in
+          HStack (spacing: 12) {
+            ForEach(row, id: \.self) { button in
+              CalcButtonView(button: button, soundOn: env.soundOn, darkMode: env.darkMode, elemSizes: env.elemSizes)
+            } // ForEach row
+          } // HStack
+        } //ForEach buttons
+        
+      } // VStack
+      
+      // Draw a rectangle on top to hide list items entering the safe area
+      Rectangle()
+        .fill(env.backColor)
+        .frame(width: screenSize.width, height: screenSize.width/5)
+        .position(x: screenSize.width/2, y: -screenSize.width/10)
+      
+    } // ZStack
+    
+  } // var body: some View
+  
+} // struct ContentView: View
 
 struct ContentView_Previews: PreviewProvider
 {
-    static var previews: some View
-    {
-        ContentView()
-            .environmentObject(GlobalEnvironment())
-    }
+  static var previews: some View
+  {
+    ContentView()
+      .environmentObject(GlobalEnvironment())
+  }
 }
 
 // Using StoryBoard In SwiftUI How To Embed StoryBoard In SwiftUI How To Use StoryBoard In SwiftUI
 // https://www.youtube.com/watch?v=T8_uqibv0YI
 struct StoryBoardView: UIViewControllerRepresentable
 {
-    func makeUIViewController(context: Context) -> some UIViewController
-    {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let controller = storyboard.instantiateViewController(identifier: "Home")
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context)
-    {
-    }
+  func makeUIViewController(context: Context) -> some UIViewController
+  {
+    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+    let controller = storyboard.instantiateViewController(identifier: "Home")
+    return controller
+  }
+  
+  func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context)
+  {
+  }
 }

@@ -9,68 +9,113 @@
 import SwiftUI
 
 struct CalcButtonView: View {
-    
-    var button: CalcButton
-    
-    var state: Bool
-    
-    @EnvironmentObject var env: GlobalEnvironment
-    
-    var body: some View {
-        
-        Button(action: {
-            self.env.Input(button: self.button)
-        }) {
-            if button.image.isEmpty == false {
-                ZStack {
-                    Image(systemName: button.image)
-                        .font(.system(size: 24))
-                        .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
-                        .foregroundColor(.white)
-                        .background(button.backgroundColor)
-                        .cornerRadius(self.buttonWidth(button: button))
-                    if state == false {
-                        Rectangle()
-                            .fill(.white)
-                            .frame(width: 35, height: 35)
-                            .mask(
-                                Image(systemName: "nosign")
-                                    .font(.system(size: 34)))
-                    }
-                }
+  
+  var button: CalcButton
+  var soundOn: Bool
+  var darkMode: Bool
+  var elemSizes: ElementsSizes
+  
+  @EnvironmentObject var env: GlobalEnvironment
+  
+  var body: some View {
+    if button.type == "menu" {
+      Menu {
+        ForEach (button.options, id: \.self) { str in
+          Button(action: {
+            env.SetFontSize(option: str)
+          }) {
+            Label(str, systemImage: button.image)
+          }
+        }
+      } label: {
+        Image(systemName: button.image)
+          .font(.system(size: elemSizes.funcBtnImageSize))
+          .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
+          .foregroundColor(.white)
+          .background(button.backgroundColor)
+          .cornerRadius(self.buttonWidth(button: button))
+      } /*primaryAction: {
+         addBookmark()
+         }*/
+    } else {
+      Button(action: {
+        self.env.Input(button: self.button)
+      }) {
+        if button.image.isEmpty == false {
+          let image: String = (button.type == "state" && darkMode) ? button.image2 : button.image
+          ZStack {
+            Image(systemName: image)
+              .font(.system(size: elemSizes.funcBtnImageSize))
+              .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
+              .foregroundColor(.white)
+              .background(button.backgroundColor)
+              .cornerRadius(self.buttonWidth(button: button))
+            if button == .sound && soundOn == false {
+              let extra_size: CGFloat = 10
+              Rectangle()
+                .fill(.white)
+                .frame(width: elemSizes.funcBtnImageSize+extra_size, height: elemSizes.funcBtnImageSize+extra_size)
+                .mask(
+                  Image(systemName: "nosign")
+                    .font(.system(size: elemSizes.funcBtnImageSize+extra_size)))
             }
-            else {
-                Text(button.title)
-                    .font(.system(size: 32))
-                    .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
-                    .foregroundColor(.white)
-                    .background(button.backgroundColor)
-                    .cornerRadius(self.buttonWidth(button: button))
-            }
+          }
         }
+        else {
+          Text(button.title)
+            .font(.system(size: elemSizes.btnsTextSize))
+            .frame(width: self.buttonWidth(button: button), height: self.buttonHeight(button: button))
+            .foregroundColor(.white)
+            .background(button.backgroundColor)
+            .cornerRadius(self.buttonWidth(button: button))
+        }
+      }
     }
-    
-    private func buttonWidth(button: CalcButton) -> CGFloat {
-        if button == .zero {
-            return (UIScreen.main.bounds.width - 4 * 12) / 4 * 2
-        }
-        if button.isSmall {
-            return (UIScreen.main.bounds.width - 5 * 12) / 8
-        }
-        return (UIScreen.main.bounds.width - 5 * 12) / 4
+  }
+  
+  let normal_btn_size = (UIScreen.main.bounds.width/4) - (4*3)
+  let func_btn_size = (UIScreen.main.bounds.width/5) - (5*5)
+  
+  private func buttonWidth(button: CalcButton) -> CGFloat {
+    if button == .zero {
+      return 2*normal_btn_size
     }
-    
-    private func buttonHeight(button: CalcButton) -> CGFloat {
-        if button.isSmall {
-            return (UIScreen.main.bounds.width - 5 * 12) / 8
-        }
-        return (UIScreen.main.bounds.width - 5 * 12) / 4
+    if button.isSmall {
+      return func_btn_size
     }
-
-}
+    return normal_btn_size
+  }
+  
+  private func buttonHeight(button: CalcButton) -> CGFloat {
+    if button.isSmall {
+      return func_btn_size
+    }
+    return normal_btn_size
+  }
+  
+} // struct CalcButtonView: View
 
 struct CalcButtonView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalcButtonView(button: .delete, state: true)
+  
+  static var previews: some View {
+    let buttons: [[CalcButton]] = [
+      [.ac, .lastResult, .delete, .divide],
+      [.seven, .eight, .nine, .multiply],
+      [.four, .five, .six, .minus],
+      [.one, .two, .three, .plus],
+      [.zero, .decimal, .equals],
+      [.eraser, .sound, .txt_size, .theme, .like]
+    ]
+    
+    VStack {
+      ForEach(buttons, id: \.self) { row in
+        HStack (spacing: 12) {
+          let elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 56, dispTextSize: 70, funcBtnImageSize:36)
+          ForEach(row, id: \.self) { button in
+            CalcButtonView(button: button, soundOn: false, darkMode: false, elemSizes: elemSizes)
+          }
+        }
+      }
     }
+  }
 }
