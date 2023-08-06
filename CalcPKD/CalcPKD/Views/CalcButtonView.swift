@@ -78,19 +78,19 @@ struct CalcButtonView: View {
   
   private func buttonWidth(button: CalcButton) -> CGFloat {
     if button == .zero {
-      return 2*normal_btn_size
+      return 2*normal_btn_size*elemSizes.sizeRatio
     }
     if button.isSmall {
-      return func_btn_size
+      return func_btn_size*elemSizes.sizeRatio
     }
-    return normal_btn_size
+    return normal_btn_size*elemSizes.sizeRatio
   }
   
   private func buttonHeight(button: CalcButton) -> CGFloat {
     if button.isSmall {
-      return func_btn_size
+      return func_btn_size*elemSizes.sizeRatio
     }
-    return normal_btn_size
+    return normal_btn_size*elemSizes.sizeRatio
   }
   
 } // struct CalcButtonView: View
@@ -110,7 +110,7 @@ struct CalcButtonView_Previews: PreviewProvider {
     VStack {
       ForEach(buttons, id: \.self) { row in
         HStack (spacing: 12) {
-          let elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 56, dispTextSize: 70, funcBtnImageSize:36)
+          let elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 34, dispTextSize: 44, funcBtnImageSize: 24, sizeRatio: 0.9)
           ForEach(row, id: \.self) { button in
             CalcButtonView(button: button, soundOn: false, darkMode: false, elemSizes: elemSizes)
           }

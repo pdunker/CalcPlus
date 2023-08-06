@@ -13,6 +13,7 @@ struct ElementsSizes {
   var btnsTextSize: CGFloat
   var dispTextSize: CGFloat
   var funcBtnImageSize: CGFloat
+  var sizeRatio: CGFloat
 }
 
 // Env object
@@ -22,13 +23,13 @@ class GlobalEnvironment: ObservableObject {
   @Published var soundOn = false // TODO: TURN ON BEFORE DEPLOYING
   
   @Published var currentSize = "Small"
-  @Published var elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 34, dispTextSize: 44, funcBtnImageSize: 24)
+  @Published var elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 34, dispTextSize: 44, funcBtnImageSize: 24, sizeRatio: 0.9)
   
   @Published var darkMode = true;
   @Published var backColor: Color = .black
   @Published var textColor: Color = .white
   
-  @Published var oldCalcs: [String] = ["", "", "", "", ""] // workaround to the historic dont start at the top
+  @Published var oldCalcs: [String] = ["", "", "", "", "", "", ""] // workaround to the historic dont start at the top
   @Published var display = ""
   
   @Published var scrollToLast = 0
@@ -47,15 +48,18 @@ class GlobalEnvironment: ObservableObject {
       elemSizes.btnsTextSize = 34
       elemSizes.dispTextSize = 44
       elemSizes.funcBtnImageSize = 24
+      elemSizes.sizeRatio = 0.9
     } else if option == "Medium" {
       elemSizes.btnsTextSize = 46
       elemSizes.dispTextSize = 56
       elemSizes.funcBtnImageSize = 30
+      elemSizes.sizeRatio = 0.95
     }
     else if option == "Big" {
       elemSizes.btnsTextSize = 56
       elemSizes.dispTextSize = 70
       elemSizes.funcBtnImageSize = 36
+      elemSizes.sizeRatio = 1
     }
   }
   
@@ -77,7 +81,7 @@ class GlobalEnvironment: ObservableObject {
     }
     if button == .eraser {
       PlaySound(sound: "trash")
-      oldCalcs = ["", "", "", "", ""]
+      oldCalcs = ["", "", "", "", "", "", ""]
       return
     }
     if button == .theme {
