@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct CalcPKDApp: App {
+struct CalcPlusApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
