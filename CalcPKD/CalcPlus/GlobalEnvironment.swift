@@ -1,9 +1,8 @@
 //
 //  GlobalEnvironment.swift
-//  CalculatorSwiftUILBTA
+//  CalcPlus
 //
 //  Created by Philip Dunker on 30/01/23.
-//  Copyright © 2023 Lets Build That App. All rights reserved.
 //
 
 import SwiftUI
@@ -15,6 +14,16 @@ struct ElementsSizes {
   var funcBtnImageSize: CGFloat
   var sizeRatio: CGFloat
 }
+
+struct InputResult {
+  var currCalc: String = ""
+  var lastCalc: String = ""
+  var sound: String = ""
+  var accepted: Bool = false
+}
+
+// workaround to the old calcs (historic) dont start at the top
+let oldCalcsDefault: [String] = ["", "", "", "", "", "", ""]
 
 // Env object
 // You can treat this as the Global Application State
@@ -29,7 +38,7 @@ class GlobalEnvironment: ObservableObject {
   @Published var backColor: Color = .black
   @Published var textColor: Color = .white
   
-  @Published var oldCalcs: [String] = ["", "", "", "", "", "", ""] // workaround to the historic dont start at the top
+  @Published var oldCalcs: [String] = oldCalcsDefault
   @Published var display = ""
   
   @Published var scrollToLast = 0
@@ -81,7 +90,7 @@ class GlobalEnvironment: ObservableObject {
     }
     if button == .eraser {
       PlaySound(sound: "trash")
-      oldCalcs = ["", "", "", "", "", "", ""]
+      oldCalcs = oldCalcsDefault
       return
     }
     if button == .theme {
@@ -95,20 +104,18 @@ class GlobalEnvironment: ObservableObject {
       }
       return
     }
-    if calculator.GetCurrState() == CalculatorModule.InputState.answer {
-      if button == .equals {
-        PlaySound(sound: "error")
-        return
-      }
-      self.oldCalcs.append(calculator.GetCurrCalc())
-      display = ""
+
+    let result = calculator.Input(input: button.title)
+    
+    if !result.sound.isEmpty {
+      PlaySound(sound: result.sound)
     }
     
-    let sound = calculator.Input(input: button.title)
-    if sound != nil {
-      PlaySound(sound: sound!)
+    if !result.lastCalc.isEmpty {
+      self.oldCalcs.append(result.lastCalc)
     }
-    self.display = calculator.GetCurrCalc()
+    
+    self.display = result.currCalc
     scrollToLast += 1
   }
   

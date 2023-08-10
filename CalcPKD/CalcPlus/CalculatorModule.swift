@@ -1,6 +1,6 @@
 //
 //  CalcController.swift
-//  CalcPKD
+//  CalcPlus
 //
 //  Created by Philip Dunker on 16/07/23.
 //
@@ -55,8 +55,13 @@ class CalculatorModule
         return m_lastInputState
     }
     
-    func Input (input: String) -> String?
+    func Input (input: String) -> InputResult
     {
+      var result = InputResult()
+      if m_lastInputState == InputState.answer {
+        result.lastCalc = m_currCalc
+      }
+      
         if (input == "0" || input == "1" || input == "2" || input == "3" || input == "4" ||
             input == "5" || input == "6" || input == "7" || input == "8" || input == "9" )
         {
@@ -72,85 +77,105 @@ class CalculatorModule
             }
             
             m_lastInputState = InputState.number
-            return InputReceived["NUMBER_OK"]
+          result.sound = InputReceived["NUMBER_OK"]!
+          result.accepted = true
         }
-        
-        if (input == ".")
+        else if (input == ".")
         {
-            if m_lastInputState == InputState.dot ||
-                m_digitingNum && m_currNumHasDot  {
-                return InputReceived["INVALID"]
-            }
-
+          if m_lastInputState == InputState.dot ||
+             m_digitingNum && m_currNumHasDot  {
+            result.sound = InputReceived["INVALID"]!
+          }
+          else {
             if (m_lastInputState == InputState.blank ||
                 m_lastInputState == InputState.answer)
             {
-                m_digitingNum = true
-                m_currCalc = "0"
+              m_digitingNum = true
+              m_currCalc = "0"
             }
             if (m_lastInputState == InputState.operation)
             {
-                m_digitingNum = true
-                m_currCalc = m_currCalc + "0"
+              m_digitingNum = true
+              m_currCalc = m_currCalc + "0"
             }
             m_currCalc = m_currCalc + "."
             m_lastInputState = InputState.dot
             m_currNumHasDot = true
-            return InputReceived["DOT"]
+            result.sound = InputReceived["DOT"]!
+            result.accepted = true
+          }
         }
+      else {
         
         m_digitingNum = false
         
         if (input == "LR")
         {
-            UseLastAnswer()
-            return InputReceived["FUNCTION"]
+          if UseLastAnswer() {
+            result.sound = InputReceived["FUNCTION"]!
+            result.accepted = true
+          } else {
+            result.sound = InputReceived["INVALID"]!
+          }
         }
-        
-        if (input == Operators["PLUS"]  ||
+        else if (input == Operators["PLUS"]  ||
             input == Operators["MINUS"] ||
             input == Operators["MULT"]  ||
             input == Operators["DIV"])
         {
-            let is_minus = (input == Operators["MINUS"])
-            if (!CanInputOperator(blank_valid: is_minus))
-            {
-                return InputReceived["INVALID"]
-            }
+          let is_minus = (input == Operators["MINUS"])
+          if (!CanInputOperator(blank_valid: is_minus))
+          {
+            result.sound = InputReceived["INVALID"]!
+          }
+          else {
             m_currCalc = m_currCalc + input
             m_lastInputState = InputState.operation
-            return InputReceived["OPERATOR_OK"]
+            result.sound = InputReceived["OPERATOR_OK"]!
+            result.accepted = true
+          }
         }
-        
-        if (input == "AC")
+        else if (input == "AC")
         {
-            Clear()
-            return InputReceived["FUNCTION"]
+          Clear()
+          result.sound = InputReceived["FUNCTION"]!
+          result.accepted = true
         }
-        
-        if (input == "Del")
+        else if (input == "Del")
         {
-            if m_currCalc == "" {
-                return InputReceived["INVALID"]
-            }
+          if m_currCalc == "" {
+            result.sound = InputReceived["INVALID"]!
+          }
+          else {
             if m_lastInputState == InputState.answer {
-                Clear()
+              Clear()
             } else {
-                EraseLastInput()
+              EraseLastInput()
             }
-            return InputReceived["FUNCTION"]
+            result.sound = InputReceived["FUNCTION"]!
+            result.accepted = true
+          }
         }
-        
-        if (input == "=")
+        else if (input == "=")
         {
-            if (Equal())
-            {
-                return InputReceived["EQUAL"]
-            }
-            return InputReceived["INVALID"]
+          if (Equal())
+          {
+            result.sound = InputReceived["EQUAL"]!
+            result.accepted = true
+          }
+          else {
+            result.sound = InputReceived["INVALID"]!
+          }
         }
-        print("input not recognized: \(input)")
-        return nil
+        else {
+          print("input not recognized: \(input)")
+        }
+      }
+      if result.accepted == false {
+        result.lastCalc = ""
+      }
+      result.currCalc = m_currCalc
+      return result
     }
     
     private func CanInputOperator (blank_valid: Bool) -> Bool
@@ -177,16 +202,17 @@ class CalculatorModule
         
         if (m_lastInputState == InputState.answer)
         {
-            if (m_lastAnswer != nil)
-            {
-                Clear()
-                UseLastAnswer()
-            }
-            else
-            {
-                // last calc was inf or NaN
-                return false
-            }
+          return UseLastAnswer()
+            //if (m_lastAnswer != nil)
+            //{
+            //    Clear()
+            //    UseLastAnswer()
+            //}
+            //else
+            //{
+            //    // last calc was inf or NaN
+            //    return false
+            //}
         }
         return true
     }
@@ -395,19 +421,20 @@ class CalculatorModule
         m_lastInputState = InputState.blank
     }
     
-    private func UseLastAnswer ()
+    private func UseLastAnswer () -> Bool
     {
-        if (m_lastAnswer == nil ||
-            m_lastInputState == InputState.number ||
-            m_lastInputState == InputState.dot    )
-        {
-            return
-        }
-        if m_lastInputState == InputState.answer {
-            m_currCalc = ""
-        }
-        m_currCalc = m_currCalc + m_lastAnswer!
-        m_lastInputState = InputState.number
+      if (m_lastAnswer == nil ||
+          m_lastInputState == InputState.number ||
+          m_lastInputState == InputState.dot    )
+      {
+        return false
+      }
+      if m_lastInputState == InputState.answer {
+        m_currCalc = ""
+      }
+      m_currCalc = m_currCalc + m_lastAnswer!
+      m_lastInputState = InputState.number
+      return true
     }
     
     private func RecognizeState (input:String?) -> InputState
@@ -452,6 +479,7 @@ class CalculatorModule
             else if (_input == "e")
             {
                 print("TODO") // pega o proximo char q vai ser o sinal, e faz 10^proximo valor
+              // nao está acontecendo mais pq limtei o number para %.3f
             }
             else
             {
