@@ -31,11 +31,14 @@ class CalculatorModule
   let InputReceived =
   [
     "NUMBER_OK"   : "digit",
-    "OPERATOR_OK" : "operator",
+    "OPERATOR_OK" : "digit",// "operator",
     "INVALID"     : "error",
     "EQUAL"       : "result",
     "DOT"         : "digit",
     "FUNCTION"    : "function",
+    "AC"          : "start",
+    "ERASER"      : "eraser",
+    "LR"          : "digit",
   ]
   
   private var m_currCalc = ""
@@ -110,7 +113,7 @@ class CalculatorModule
       if input == "LR" {
         
         if UseLastAnswer() {
-          result.sound = InputReceived["FUNCTION"]!
+          result.sound = InputReceived["LR"]!
           result.accepted = true
         } else {
           result.sound = InputReceived["INVALID"]!
@@ -132,7 +135,7 @@ class CalculatorModule
         }
       } else if (input == "AC") {
         Clear()
-        result.sound = InputReceived["FUNCTION"]!
+        result.sound = InputReceived["AC"]!
         result.accepted = true
       } else if (input == "Del") {
         
@@ -145,7 +148,7 @@ class CalculatorModule
           } else {
             EraseLastInput()
           }
-          result.sound = InputReceived["FUNCTION"]!
+          result.sound = InputReceived["ERASER"]!
           result.accepted = true
           
         }

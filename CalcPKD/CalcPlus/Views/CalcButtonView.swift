@@ -73,10 +73,24 @@ struct CalcButtonView: View {
     }
   }
   
-  let normal_btn_size = (UIScreen.main.bounds.width/4) - (4*3)
-  let func_btn_size = (UIScreen.main.bounds.width/5) - (5*5)
+  let isBigScreen = UIScreen.main.bounds.width >= 820
   
   private func buttonWidth(button: CalcButton) -> CGFloat {
+    var normal_btn_size: CGFloat
+    if isBigScreen {
+      normal_btn_size = (UIScreen.main.bounds.height/10) - (11*1)
+    } else {
+      normal_btn_size = (UIScreen.main.bounds.width/4) - (5*1)
+    }
+    
+    var func_btn_size: CGFloat
+    if isBigScreen {
+      //func_btn_size = (UIScreen.main.bounds.width/5) - (4*30)
+      func_btn_size = (UIScreen.main.bounds.height/10) - (11*4)
+    } else {
+      func_btn_size = (UIScreen.main.bounds.width/5) - (6*4)
+    }
+    
     if button == .zero {
       return 2*normal_btn_size*elemSizes.sizeRatio
     }
@@ -87,6 +101,20 @@ struct CalcButtonView: View {
   }
   
   private func buttonHeight(button: CalcButton) -> CGFloat {
+    var normal_btn_size: CGFloat
+    if isBigScreen {
+      normal_btn_size = (UIScreen.main.bounds.height/10) - (11*1)
+    } else {
+      normal_btn_size = (UIScreen.main.bounds.width/4) - (5*1)
+    }
+    
+    var func_btn_size: CGFloat
+    if isBigScreen {
+      func_btn_size = (UIScreen.main.bounds.height/10) - (11*4)
+    } else {
+      func_btn_size = (UIScreen.main.bounds.width/5) - (6*4)
+    }
+    
     if button.isSmall {
       return func_btn_size*elemSizes.sizeRatio
     }

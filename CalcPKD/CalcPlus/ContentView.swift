@@ -30,7 +30,7 @@ struct ContentView: View {
   var body: some View {
     
     let screenSize = UIScreen.main.bounds
-    
+    let copiedMsg = "Calculation copied to clipboard"
     ZStack (alignment: .bottom) {
       
       env.backColor.edgesIgnoringSafeArea(.all)
@@ -48,14 +48,14 @@ struct ContentView: View {
                       Text(calc)
                         .lineLimit(1)
                         .font(.system(size: env.elemSizes.dispTextSize))
-                        .foregroundColor(env.textColor)
+                        .foregroundColor(.gray)
                         .frame(minWidth: screenSize.width, maxWidth: .infinity, alignment: .trailing)
                         .onTapGesture {
                           UIPasteboard.general.string = calc
                           copyAlert = true
                         }
                         .alert(isPresented: $copyAlert) {
-                          Alert(title: Text("Copied to clipboard"))
+                          Alert(title: Text(copiedMsg))
                         }
                     } // HStack
                   } // ScrolView horizontal
@@ -87,9 +87,7 @@ struct ContentView: View {
                   copyAlert = true
                 }
                 .alert(isPresented: $copyAlert) {
-                  Alert(
-                    title: Text("Copied to clipboard")
-                  )
+                  Alert(title: Text(copiedMsg))
                 }
               Text("") // workaround to make the last digit appear in   screen after typed
                 .id(label_end_ID)

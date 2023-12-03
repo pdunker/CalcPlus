@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import Foundation
 
 struct ElementsSizes {
   var btnsTextSize: CGFloat
@@ -23,13 +24,13 @@ struct InputResult {
 }
 
 // workaround to the old calcs (historic) dont start at the top
-let oldCalcsDefault: [String] = ["", "", "", "", "", "", ""]
+let oldCalcsDefault: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 
 // Env object
 // You can treat this as the Global Application State
 class GlobalEnvironment: ObservableObject {
   
-  @Published var soundOn = false // TODO: TURN ON BEFORE DEPLOYING
+  @Published var soundOn = false
   
   @Published var currentSize = "Small"
   @Published var elemSizes: ElementsSizes = ElementsSizes(btnsTextSize: 34, dispTextSize: 44, funcBtnImageSize: 24, sizeRatio: 0.9)
@@ -48,28 +49,34 @@ class GlobalEnvironment: ObservableObject {
   private var audioPlayer: AVAudioPlayer?
   
   init() {
-    PlaySound(sound: "start")
     SetFontSize(option: currentSize)
+    PlaySound(sound: "start")
+    
+    print("processInfo.processName \(ProcessInfo.processInfo.processName)")
+    print("processInfo.operatingSystemVersion \(ProcessInfo.processInfo.operatingSystemVersion)")
+    print("ProcessInfo.processInfo.thermalState \(ProcessInfo.processInfo.thermalState)")
   }
   
   func SetFontSize (option: String) {
+    let isBigScreen = UIScreen.main.bounds.width >= 820
     if option == "Small" {
       elemSizes.btnsTextSize = 34
       elemSizes.dispTextSize = 44
       elemSizes.funcBtnImageSize = 24
-      elemSizes.sizeRatio = 0.9
+      elemSizes.sizeRatio = isBigScreen ? 1 : 0.9
     } else if option == "Medium" {
       elemSizes.btnsTextSize = 46
       elemSizes.dispTextSize = 56
       elemSizes.funcBtnImageSize = 30
-      elemSizes.sizeRatio = 0.95
+      elemSizes.sizeRatio = isBigScreen ? 1.1 : 0.95
     }
     else if option == "Big" {
       elemSizes.btnsTextSize = 56
       elemSizes.dispTextSize = 70
       elemSizes.funcBtnImageSize = 36
-      elemSizes.sizeRatio = 1
+      elemSizes.sizeRatio = isBigScreen ? 1.2 : 1
     }
+    PlaySound(sound: "choice")
   }
   
   func Input (button: CalcButton) {
@@ -96,9 +103,11 @@ class GlobalEnvironment: ObservableObject {
     if button == .theme {
       darkMode = !darkMode
       if darkMode {
+        PlaySound(sound: "zen2")
         backColor = .black
         textColor = .white
       } else {
+        PlaySound(sound: "zen1")
         backColor = .white
         textColor = .black
       }

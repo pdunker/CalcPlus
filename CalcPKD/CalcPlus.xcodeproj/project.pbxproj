@@ -12,7 +12,12 @@
 		D4118F3C2A5F8D6100E7C966 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */; };
 		D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */; };
 		D4444F302A76F7CD00B2343C /* OrientationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4444F2F2A76F7CD00B2343C /* OrientationInfo.swift */; };
-		D483641A2A799B2600718B33 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D48364192A799B2600718B33 /* error.mp3 */; };
+		D47BF34B2A89027B00D1E274 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D47BF34A2A89027B00D1E274 /* error.mp3 */; };
+		D47BF34D2A8906BE00D1E274 /* eraser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D47BF34C2A8906BE00D1E274 /* eraser.mp3 */; };
+		D47BF3502A890D4000D1E274 /* zen1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D47BF34E2A890D4000D1E274 /* zen1.mp3 */; };
+		D47BF3512A890D4000D1E274 /* zen2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D47BF34F2A890D4000D1E274 /* zen2.mp3 */; };
+		D47BF3532A89108B00D1E274 /* choice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D47BF3522A89108B00D1E274 /* choice.mp3 */; };
+		D483641A2A799B2600718B33 /* error_.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D48364192A799B2600718B33 /* error_.mp3 */; };
 		D483641C2A79A5C200718B33 /* sound_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D483641B2A79A5C200718B33 /* sound_off.mp3 */; };
 		D483641E2A79A5CF00718B33 /* sound_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D483641D2A79A5CF00718B33 /* sound_on.mp3 */; };
 		D48364202A79A9EA00718B33 /* yay.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D483641F2A79A9EA00718B33 /* yay.mp3 */; };
@@ -39,7 +44,12 @@
 		D4118F3B2A5F8D6100E7C966 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4118F3E2A5F8D6100E7C966 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D4444F2F2A76F7CD00B2343C /* OrientationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationInfo.swift; sourceTree = "<group>"; };
-		D48364192A799B2600718B33 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
+		D47BF34A2A89027B00D1E274 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
+		D47BF34C2A8906BE00D1E274 /* eraser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = eraser.mp3; sourceTree = "<group>"; };
+		D47BF34E2A890D4000D1E274 /* zen1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zen1.mp3; sourceTree = "<group>"; };
+		D47BF34F2A890D4000D1E274 /* zen2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zen2.mp3; sourceTree = "<group>"; };
+		D47BF3522A89108B00D1E274 /* choice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = choice.mp3; sourceTree = "<group>"; };
+		D48364192A799B2600718B33 /* error_.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error_.mp3; sourceTree = "<group>"; };
 		D483641B2A79A5C200718B33 /* sound_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_off.mp3; sourceTree = "<group>"; };
 		D483641D2A79A5CF00718B33 /* sound_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_on.mp3; sourceTree = "<group>"; };
 		D483641F2A79A9EA00718B33 /* yay.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = yay.mp3; sourceTree = "<group>"; };
@@ -141,17 +151,22 @@
 		D4E703242A6AD2A300ABD463 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				D48364212A79AB8200718B33 /* trash.mp3 */,
-				D483641F2A79A9EA00718B33 /* yay.mp3 */,
-				D483641D2A79A5CF00718B33 /* sound_on.mp3 */,
-				D483641B2A79A5C200718B33 /* sound_off.mp3 */,
-				D48364192A799B2600718B33 /* error.mp3 */,
+				D47BF3522A89108B00D1E274 /* choice.mp3 */,
+				D4E703332A6ADDA200ABD463 /* digit.mp3 */,
+				D47BF34C2A8906BE00D1E274 /* eraser.mp3 */,
+				D48364192A799B2600718B33 /* error_.mp3 */,
+				D47BF34A2A89027B00D1E274 /* error.mp3 */,
 				D4A40CCF2A6B546100A48EC1 /* function.mp3 */,
 				D4A40CCD2A6B52FE00A48EC1 /* operator.mp3 */,
+				D4A40CC72A6B4F0600A48EC1 /* result.mp3 */,
+				D483641B2A79A5C200718B33 /* sound_off.mp3 */,
+				D483641D2A79A5CF00718B33 /* sound_on.mp3 */,
 				D4A40CCB2A6B51B400A48EC1 /* sound.mp3 */,
 				D4A40CC92A6B514D00A48EC1 /* start.mp3 */,
-				D4A40CC72A6B4F0600A48EC1 /* result.mp3 */,
-				D4E703332A6ADDA200ABD463 /* digit.mp3 */,
+				D48364212A79AB8200718B33 /* trash.mp3 */,
+				D483641F2A79A9EA00718B33 /* yay.mp3 */,
+				D47BF34E2A890D4000D1E274 /* zen1.mp3 */,
+				D47BF34F2A890D4000D1E274 /* zen2.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -216,14 +231,19 @@
 			files = (
 				D483641E2A79A5CF00718B33 /* sound_on.mp3 in Resources */,
 				D48364222A79AB8200718B33 /* trash.mp3 in Resources */,
+				D47BF34B2A89027B00D1E274 /* error.mp3 in Resources */,
 				D4E703352A6ADDA200ABD463 /* digit.mp3 in Resources */,
-				D483641A2A799B2600718B33 /* error.mp3 in Resources */,
+				D483641A2A799B2600718B33 /* error_.mp3 in Resources */,
 				D48364202A79A9EA00718B33 /* yay.mp3 in Resources */,
+				D47BF3512A890D4000D1E274 /* zen2.mp3 in Resources */,
 				D4A40CC82A6B4F0600A48EC1 /* result.mp3 in Resources */,
 				D4A40CCC2A6B51B400A48EC1 /* sound.mp3 in Resources */,
 				D4118F3F2A5F8D6100E7C966 /* Preview Assets.xcassets in Resources */,
 				D4A40CD02A6B546100A48EC1 /* function.mp3 in Resources */,
+				D47BF3502A890D4000D1E274 /* zen1.mp3 in Resources */,
+				D47BF34D2A8906BE00D1E274 /* eraser.mp3 in Resources */,
 				D483641C2A79A5C200718B33 /* sound_off.mp3 in Resources */,
+				D47BF3532A89108B00D1E274 /* choice.mp3 in Resources */,
 				D4A40CCE2A6B52FE00A48EC1 /* operator.mp3 in Resources */,
 				D4A40CCA2A6B514D00A48EC1 /* start.mp3 in Resources */,
 				D4118F3C2A5F8D6100E7C966 /* Assets.xcassets in Resources */,
