@@ -12,4 +12,8 @@ It's designed to:
   - dark / light modes
   - animated sound when clicking
 
+<video width="1000" controls>
+  <source src="images/calcplus_vid.mov" type="video/mp4">
+</video>
+
 <img src="images/Screenshot_2023-12-03_at_16.41.59.png" width="700">
