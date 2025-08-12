@@ -2,6 +2,11 @@
 
 CalcPlus helps you to keep tracking your work with calculation history and good layout resources.
 
+<table>
+  <td>
+    <img src="images/CalcPlus.gif">
+  </td>
+  <td>
 It's designed to:
 
 - Save calculations history
@@ -11,9 +16,6 @@ It's designed to:
   - choose the size of the font 
   - dark / light modes
   - animated sound when clicking
+  </td>
+</table>
 
-<video width="1000" controls>
-  <source src="images/calcplus_vid.mov" type="video/mp4">
-</video>
-
-<img src="images/Screenshot_2023-12-03_at_16.41.59.png" width="700">
